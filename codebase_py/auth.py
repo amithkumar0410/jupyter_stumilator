@@ -47,8 +47,8 @@ class verify:
         SMTP_SERVER = "smtp.gmail.com"  # or "smtp.office365.com"
         SMTP_PORT = 587  # TLS port
 
-        SENDER = "thinkersinfinty@gmail.com"
-        PASSWORD = "wruq fttg khtk pocr" 
+        SENDER = "abc@gmail.com" 
+        PASSWORD = "xxyz" 
         RECIPIENT = mail
 
         msg = EmailMessage()
