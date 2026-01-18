@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<link href="{{url_for('static',filename='login.css')}}" rel="stylesheet">
+        <title>hello</title>
+    </head>
+    <body>
+        <form action="/login" method="post">
+            <p>This is my web page</p>
+            <label>user name</label>
+            <input type="text" class="username" id="username" name="username"/>
+			{{res}}
+
+            <label>password</label>
+            <input type="text" class="passw" id="passw" name="passw"/>
+
+            <button onclick="">submit</button>
+            <p>{{res}}</p>
+			
+			<p> Are you new ? Dont have a account <a href="{{url_for('call_register')}}"> register</a></p>
+            
+
+
+
+        </form>
+    </body>
+</html></ht>

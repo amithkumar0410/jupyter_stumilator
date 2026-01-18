@@ -1,0 +1,62 @@
+<html>
+    <head>
+	<link href="{{url_for('static',filename='open.css')}}" rel="stylesheet">
+        <title>my web page</title>
+    </head>
+    <body>
+        <button id="new">new file</button>
+        {% for ele in file %}
+        <a href="/open_file?filename={{ele}}" target="_blank">{{ele}}</a>
+
+        {% endfor %}
+    </body>
+</html>
+<script>
+				
+		async function newsheet()
+		{
+		
+			name=prompt("enter the file name")
+			
+			if(name!=="")
+			{
+				if(/^[a-zA-Z0-9]+$/.test(name))
+				{
+				
+					const response = await fetch('/new_file?filename=' + encodeURIComponent(name));
+					const get_data = await response.text();
+					
+					if (response.redirected) {
+								console.log('Redirected to:', response.url);
+								window.open(response.url, '_blank');
+								//window.location.href = response.url; // actually navigate
+					}
+					response1=fetch('/new_file?filename=')
+					console.log(get_fromf)
+					
+					
+					
+				}
+				else{
+				alert("only alpha numeric is allowed")
+				}
+				
+			}
+		
+			else 
+			{
+			console.log("no name")
+			
+			}
+			/*
+			fetch('\new_file?filename='+name)
+		
+
+			//"window.location.href='/new_file'"
+			console.log("the name is 1",file_name)*/
+	
+			}
+			document.getElementById('new').addEventListener('click', newsheet);
+			
+</script>			
+			

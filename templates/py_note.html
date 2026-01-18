@@ -1,0 +1,348 @@
+<html>
+    <head>
+		<meta charset="UTF-8">
+        <title>{{filename}}</title>
+		<link href="{{url_for('static',filename='pynote.css')}}" rel="stylesheet">
+    </head>
+    <body>
+        <table border="10px solid white" class="menu">
+            <tr>
+            <th colspan="2">file</th>
+			<th colspan="3">cell</th>
+			<th colspan="3">run</th>
+			
+            <th colspan="2">edit</th>
+          
+            </tr>
+        
+            <tr>
+                
+                <td onclick="save()">save file</td>
+                <td onclick="window.location.href='/open'"> open</td>
+
+                <td onclick="add()">add cell</td>
+				<td id="cell_up">insert above</td>
+				<td id="cell_below">insert_below</td>
+				<td id="run" >run cell</td>
+				<td id="-" >interpert</td>
+				<td id="move_above" >move above</td>
+				<td id="move_below">move below</td>
+				
+                
+               
+            </tr>
+        </table>
+       
+       
+        <div class="contanier" id="contanier"></div>
+       
+    </body>
+    <script>
+	
+	
+		
+      const contanier=document.getElementById("contanier");
+	  const cells=document.querySelectorAll(".cell");
+	  
+      let last=1
+	  let file_name = "";
+    function createcell() {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+
+    const textarea = document.createElement("textarea");
+    textarea.className = "py-editor";
+
+    const runbtn = document.createElement("button");
+    runbtn.textContent = "Run";
+    runbtn.onclick = () => run(cell);
+
+    const editorRow = document.createElement("div");
+    editorRow.className = "editor-row";
+    editorRow.appendChild(textarea);
+    editorRow.appendChild(runbtn);
+
+    const controls = document.createElement("div");
+    controls.className = "controls";
+
+    const up = document.createElement("button");
+    up.textContent = "Move ↑";
+    up.onclick = () => moveup(cell);
+
+    const down = document.createElement("button");
+    down.textContent = "Move ↓";
+    down.onclick = () => movedown(cell);
+
+    const addAbove = document.createElement("button");
+    addAbove.textContent = "Add ↑";
+    addAbove.onclick = () => insert_above(cell);
+
+    const addBelow = document.createElement("button");
+    addBelow.textContent = "Add ↓";
+    addBelow.onclick = () => insert_below(cell);
+
+    const del = document.createElement("button");
+    del.textContent = "Delete";
+    del.onclick = () => dele_cell(cell);
+
+    controls.append(up, down, addAbove, addBelow, del);
+
+    const output = document.createElement("pre");
+
+    cell.append(editorRow, controls, output);
+    contanier.appendChild(cell);
+
+    textarea.focus();
+    return cell;
+}
+
+		
+		
+    
+        function add()
+        {
+        document.getElementById("contanier").appendChild(createcell());
+        
+        }
+		add()
+		function dele_cell(cell)
+		{
+		let nextSub = cell.nextElementSibling; 
+		if(nextSub)
+		{
+			
+		nextSub.querySelector("textarea").focus();
+		}
+		else{
+		let presub= cell.previousElementSibling;
+		if(presub)
+		{
+		
+		presub.querySelector("textarea").focus();
+		}
+		}
+		cell.remove()
+		}
+        function insert_above(cell)
+        {
+            newcell=createcell();
+            //cell.parentNode.insertBefore(newcell,lcell);
+            cell.parentNode.insertBefore(newcell,cell);
+        }
+
+            function insert_below(cell)
+        {
+            newcell=createcell();
+            //cell.parentNode.insertBefore(newcell,lcell);
+            cell.parentNode.insertBefore(newcell,cell.nextSibling);
+        }
+		
+      async function run(cell) {
+    const textarea = cell.querySelector("textarea");
+    const pre = cell.querySelector("pre");
+
+    pre.textContent = "";
+
+    let payload = {
+        code: textarea.value,
+        input: null
+    };
+
+    while (true) {
+        const response = await fetch("/run_now", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const res = await response.json();
+
+        if (res.output) {
+            pre.textContent += res.output;
+        }
+
+        if (res.status === "input") {
+            const value = prompt(res.prompt || "Enter input:");
+
+            if (value === null) {
+                pre.textContent += "\n⛔ Execution cancelled";
+                break;
+            }
+
+            payload.input = value;
+            continue; // ▶ resume execution
+        }
+
+        break; // done or error
+    }
+
+    textarea.focus();
+}
+
+           
+            
+
+        function save()
+        {
+		
+          const input_v = Array.from(document.querySelectorAll(".cell textarea")).map(t => t.value);
+          const output_v = Array.from(document.querySelectorAll(".cell pre")).map(t => t.innerHTML);
+		  console.log(input_v,output_v)
+		  // Send to Flask
+		  console.log("pass 1")
+		  console.log(file_name)
+           fetch("/save_data", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({inp:input_v,out:output_v,name:file_name})
+            })
+            .then(res => res.json())
+			.then(res=>alert("File saved"))
+            
+        }
+        
+       
+        function open()
+        {
+            var out={{out | tojson}}
+            var inp={{inp | tojson}}
+			var file_temp={{file | tojson}}
+			console.log(file_temp)
+			file_name=file_name = file_temp;
+
+			
+			
+            for(let i=0;i<inp.length;i++)
+            {
+			console.log("here we are in loop")
+            add();
+            cell_val=document.getElementById("cell"+last)
+            cell_val.querySelector("textarea").value=inp[i]
+            cell_val.querySelector("pre").textContent=out[i]
+
+        }
+	
+	
+		
+		
+		
+		}
+	open()
+	
+	document.addEventListener("keydown",async function(e){
+	 if (e.key === "Enter" && e.shiftKey && e.target.tagName === "TEXTAREA") {
+
+    await run(e.target.parentElement);
+
+    let sub = e.target.parentElement;       // ✔ correct parent
+    let nextSub = sub.nextElementSibling;   // ✔ next block
+
+    if (nextSub) {
+        let nextTextarea = nextSub.querySelector("textarea");
+		
+    nextTextarea.focus();   
+
+    }
+	else
+	{
+	add()
+	let nextSub = sub.nextElementSibling; 
+	 let nextTextarea = nextSub.querySelector("textarea");
+    nextTextarea.focus();          
+    }
+	}
+	
+
+
+	if (e.key==="Enter" && e.target.tagName==="TEXTAREA")
+	{
+	e.target.rows = e.target.rows + 1;
+	
+	}
+	 if (e.key === "Backspace") {
+            if (e.target.rows > 1) {
+                e.target.rows = e.target.rows - 1;
+            }
+        }
+	
+		
+	}
+	)
+	
+	document.addEventListener("keydown",function(e)
+	{
+	if(e.ctrlKey && e.key.toLowerCase()==="s")
+	{
+		event.preventDefault();
+		save();
+		}
+	})
+	
+
+	
+	document.getElementById("cell_up").addEventListener("mousedown",()=>{
+	let cell=document.activeElement.parentElement;
+	
+	insert_above(cell);
+	});
+	
+	document.getElementById("cell_below").addEventListener("mousedown",()=>{
+	let cell=document.activeElement.parentElement;
+	
+	insert_below(cell);
+	});
+	function movedown(cell)
+	{
+		let currentt=cell;
+		let nextsub= cell.nextElementSibling;
+		if(nextsub)
+		{
+			cell.parentNode.insertBefore(nextsub,currentt);
+			
+	}
+	}
+	
+	function moveup(cell)
+	{
+		let currentt=cell;
+		let presub= cell.previousElementSibling;
+		if(presub)
+		{
+			cell.parentNode.insertBefore(currentt,presub);
+			
+	}
+	}
+
+document.getElementById("move_below").addEventListener("mousedown",()=>{
+	let cell=document.activeElement.parentElement;
+	
+	movedown(cell);
+	});
+	
+document.getElementById("move_above").addEventListener("mousedown",()=>{
+	let cell=document.activeElement.parentElement;
+	
+	moveup(cell);
+	});
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Tab" && e.target.tagName === "TEXTAREA") {
+        e.preventDefault();
+
+        const textarea = e.target;
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+
+        textarea.value =
+            textarea.value.slice(0, start) +
+            "    " +
+            textarea.value.slice(end);
+
+        textarea.selectionStart = textarea.selectionEnd = start + 4;
+    }
+});
+
+
+
+</script>
+</html>

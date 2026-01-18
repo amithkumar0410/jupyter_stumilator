@@ -1,0 +1,8 @@
+,inputs,outputs
+0,a=10,NaN
+1,b=20,NaN
+2,c=a+b,NaN
+3,print(c),30
+4,"str1=""supritha""",
+5,print(str1),"supritha
+"

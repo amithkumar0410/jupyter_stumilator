@@ -1,0 +1,33 @@
+<html>
+    <head>
+	<link href="{{url_for('static',filename='register.css')}}" rel="stylesheet">
+        <title>
+		
+            my page
+        </title>
+    </head>
+    <body>
+        <form action="/get_otp" method="post">
+			{{res}}
+           <br> <label>user id</label>
+            <input type="text" name="_id" class="_id" id="_id"> <br>
+			<br>
+            <label>user name</label><br>
+            <input type="text" name="username" class="username" id="username"><br>
+
+           
+
+
+            <label>email</label><br>
+            <input type="email" name="email" class="email" id="email"><br>
+            <br>
+			
+			 <label>password</label><br>
+            <input type="password" name="passw" class="passw" id="passw"><br>
+			
+            <button>send otp</button><br>
+			<p> do you have account already then <a href="{{url_for('home')}}"> login</a></p>
+
+        </form>
+    </body>
+</html>

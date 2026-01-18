@@ -1,0 +1,74 @@
+/* Reset */
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* Background */
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e5e7eb, #c7cdd6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card */
+form {
+    width: 320px;
+    background: #f8f9fb;
+    padding: 32px 34px;
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* Label */
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+/* OTP input */
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1.6px solid #cbd5e1;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 4px;
+    margin-bottom: 22px;
+    transition: all 0.25s ease;
+}
+
+/* Focus */
+input:focus {
+    outline: none;
+    border-color: #1e3a8a;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.15);
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover */
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.35);
+}

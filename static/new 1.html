@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Python Editor</title>
+
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://codemirror.net/6/theme/one-dark.css">
+    <style>
+        body { background:#282c34; color:white; font-family: monospace; }
+        #editor { height: 400px; border:1px solid #444; }
+    </style>
+</head>
+<body>
+
+<h2>Python Code Editor</h2>
+<textarea id="editor"></textarea>
+
+<!-- CodeMirror Scripts -->
+<script type="module">
+    import {EditorView, basicSetup} from "https://codemirror.net/6/basic-setup/index.js";
+    import {python} from "https://codemirror.net/6/lang-python/index.js";
+    import {oneDark} from "https://codemirror.net/6/theme/one-dark.js";
+
+    new EditorView({
+        parent: document.querySelector("#editor"),
+        extensions: [
+            basicSetup,
+            python(),
+            oneDark
+        ]
+    });
+</script>
+
+</body>
+</html>

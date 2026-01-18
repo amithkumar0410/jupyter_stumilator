@@ -1,0 +1,78 @@
+/* ===============================
+   RESET & BASE
+   =============================== */
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* ===============================
+   PAGE BACKGROUND
+   =============================== */
+body {
+    margin: 0;
+    padding: 30px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e5e7eb, #c7cdd6);
+}
+
+/* ===============================
+   NEW FILE BUTTON
+   =============================== */
+#new {
+    padding: 12px 18px;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+#new:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(15, 23, 42, 0.45);
+}
+
+/* ===============================
+   FILE LIST CONTAINER
+   =============================== */
+a {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    background: #f8f9fb;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover on file */
+a:hover {
+    background: #e5e7eb;
+    transform: translateX(4px);
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 480px) {
+    body {
+        padding: 20px;
+    }
+
+    a {
+        font-size: 13px;
+    }
+}

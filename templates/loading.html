@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading Animation with Image</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background:green;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Loader animation */
+  .loader {
+    border: 8px solid #444;
+    border-top: 8px solid #00ff88;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1.2s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Image at bottom */
+  .bottom-image {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 120px;
+    opacity: 0.8;
+  }
+  .logo{
+    width:200px;
+    height:200px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="loader"></div>
+  <p>Loading... Please wait</p>
+
+  <!-- Bottom image -->
+  <img src="../static/logo.png"  class="logo" alt="Logo" class="bottom-image">
+
+</body>
+<script>
+  function get()
+  {
+    console.log("here")
+    window.location.href="/call_login"
+  }
+
+setTimeout(get,3000);
+
+
+
+</script>
+</html>
